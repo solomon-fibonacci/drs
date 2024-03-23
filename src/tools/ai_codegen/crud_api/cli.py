@@ -1,4 +1,5 @@
 import argparse
+import asyncio
 import os
 import zipfile
 from tools.ai_codegen.crud_api.generator import CrudApiCodeGen
@@ -21,7 +22,7 @@ def zip_project_folder(folder_path):
     return zip_filename
 
 
-def main():
+async def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(
         description="Generate API code based on a specification.")
@@ -45,9 +46,9 @@ def main():
 
     # Generate code
     code_gen = CrudApiCodeGen(spec)
-    datamodels_code = code_gen.generate_datamodels()
-    router_code = code_gen.generate_router()
-    service_code = code_gen.generate_service()
+    datamodels_code = await code_gen.generate_datamodels()
+    router_code = await code_gen.generate_router()
+    service_code = await code_gen.generate_service()
 
     # Create project folder
     project_folder = os.path.join(os.getcwd(), project_name)
@@ -66,4 +67,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

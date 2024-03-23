@@ -12,7 +12,7 @@ class CrudApiCodeGen:
         self.spec = spec
         self.ai_client = AiClientFactory.create_ai_client()
 
-    def generate_datamodels(self) -> str:
+    async def generate_datamodels(self) -> str:
         """
         Generates the content for the datamodels.py file based on a natural language spec,
         combining detailed instructions with a template for code generation.
@@ -29,7 +29,7 @@ class CrudApiCodeGen:
         generated_code = self.ai_client.generate_code(prompt)
         return generated_code
 
-    def generate_router(self) -> str:
+    async def generate_router(self) -> str:
         """
         Generates the content for the router.py file based on a natural language spec,
         combining detailed instructions with a template for code generation.
@@ -45,7 +45,7 @@ class CrudApiCodeGen:
         generated_code = self.ai_client.generate_code(prompt)
         return generated_code
 
-    def generate_service(self) -> str:
+    async def generate_service(self) -> str:
         """
         Generates the content for the service.py file based on a natural language spec,
         combining detailed instructions with a template for code generation.

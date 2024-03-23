@@ -1,3 +1,4 @@
+import asyncio
 # Assuming the CrudApiCodeGen and AiClient are defined in crud_api_code_gen.py
 from tools.ai_codegen.crud_api.generator import CrudApiCodeGen
 
@@ -14,14 +15,14 @@ The system should use a RESTful API design, with a service layer interacting wit
 """
 
 
-def test_crud_api_codegen():
+async def test_crud_api_codegen():
     # Create an instance of the CrudApiCodeGen with the unified specification
     code_generator = CrudApiCodeGen(specification)
 
     # Generate code based on the provided specification
-    datamodels_code = code_generator.generate_datamodels()
-    router_code = code_generator.generate_router()
-    service_code = code_generator.generate_service()
+    datamodels_code = await code_generator.generate_datamodels()
+    router_code = await code_generator.generate_router()
+    service_code = await code_generator.generate_service()
 
     # Output the generated code for review
     print("=== Data Models Code ===")
@@ -33,4 +34,4 @@ def test_crud_api_codegen():
 
 
 if __name__ == "__main__":
-    test_crud_api_codegen()
+    asyncio.run(test_crud_api_codegen())
