@@ -3,20 +3,23 @@ from tools.ai_client.factory import AiClientFactory
 
 class CrudApiCodeGen:
 
-    def __init__(self):
+    def __init__(self, spec: str):
         """
-        Initializes the CRUD API code generator.
+        Initializes the CRUD API code generator with a specific set of specifications.
+        
+        :param spec: A string containing a natural language description of the entire API.
         """
+        self.spec = spec
         self.ai_client = AiClientFactory.create_ai_client()
 
-    def generate_datamodels(self, spec: str) -> str:
+    def generate_datamodels(self) -> str:
         """
         Generates the content for the datamodels.py file based on a natural language spec,
         combining detailed instructions with a template for code generation.
         """
         prompt = f"""
         # Specification:
-        {spec}
+        {self.spec}
 
         # Instructions:
         Generate Python code for data models using Pydantic. The code should include necessary imports. 
@@ -26,14 +29,14 @@ class CrudApiCodeGen:
         generated_code = self.ai_client.generate_code(prompt)
         return generated_code
 
-    def generate_router(self, spec: str) -> str:
+    def generate_router(self) -> str:
         """
         Generates the content for the router.py file based on a natural language spec,
         combining detailed instructions with a template for code generation.
         """
         prompt = f"""
         # Specification:
-        {spec}
+        {self.spec}
 
         # Instructions:
         Generate Python code for FastAPI router including necessary imports and route decorators. 
@@ -42,14 +45,14 @@ class CrudApiCodeGen:
         generated_code = self.ai_client.generate_code(prompt)
         return generated_code
 
-    def generate_service(self, spec: str) -> str:
+    def generate_service(self) -> str:
         """
         Generates the content for the service.py file based on a natural language spec,
         combining detailed instructions with a template for code generation.
         """
         prompt = f"""
         # Specification:
-        {spec}
+        {self.spec}
 
         # Instructions:
         Generate Python code for the service layer, including necessary functions and business logic. 
