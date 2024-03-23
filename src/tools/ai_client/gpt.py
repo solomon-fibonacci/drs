@@ -31,9 +31,12 @@ class GPTAiClient(AiClient):
         return json_string
 
     async def generate_code(self, prompt: str) -> str:
-        completion = await self.ai_client.completions.create(
+        completion = await self.ai_client.chat.completions.create(
             model=self.model,
-            prompt=prompt,
+            messages=[{
+                "role": "user",
+                "content": prompt
+            }],
             temperature=0.9,
         )
-        return completion.choices[0].text
+        return completion.choices[0].message.content

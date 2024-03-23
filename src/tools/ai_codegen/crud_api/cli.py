@@ -4,8 +4,11 @@ import os
 import zipfile
 from tools.ai_codegen.crud_api.generator import CrudApiCodeGen
 
+DEFAULT_PROJECT_NAME = "MyAPIProject"
+DEFAULT_SPEC = "A simple CRUD API for an event management system."
 
-def write_to_file(folder_path, filename, content):
+
+def write_to_file(folder_path: str, filename: str, content: str):
     with open(os.path.join(folder_path, filename), 'w') as file:
         file.write(content)
 
@@ -26,16 +29,17 @@ async def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(
         description="Generate API code based on a specification.")
-    parser.add_argument("--project_name",
-                        type=str,
-                        default="MyAPIProject",
-                        help="The name of the project (default: MyAPIProject)")
+    parser.add_argument(
+        "--project_name",
+        type=str,
+        default=DEFAULT_PROJECT_NAME,
+        help=f"The name of the project (default: {DEFAULT_PROJECT_NAME}")
     parser.add_argument(
         "--spec",
         type=str,
-        default="A simple CRUD API for managing resources.",
+        default=DEFAULT_SPEC,
         help=
-        "The specification of the API in natural language (default: A simple CRUD API for managing resources.)"
+        f"The specification of the API in natural language (default: {DEFAULT_SPEC}"
     )
     args = parser.parse_args()
 
