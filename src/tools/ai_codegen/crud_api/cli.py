@@ -26,42 +26,41 @@ def zip_project_folder(folder_path):
 
 
 async def main():
-    # Parse command-line arguments
     parser = argparse.ArgumentParser(
         description="Generate API code based on a specification.")
     parser.add_argument(
         "--project_name",
         type=str,
         default=DEFAULT_PROJECT_NAME,
-        help=f"The name of the project (default: {DEFAULT_PROJECT_NAME}")
+        help=f"The name of the project (default: {DEFAULT_PROJECT_NAME})")
     parser.add_argument(
         "--spec",
         type=str,
         default=DEFAULT_SPEC,
         help=
-        f"The specification of the API in natural language (default: {DEFAULT_SPEC}"
+        f"The specification of the API in natural language (default: {DEFAULT_SPEC})"
     )
     args = parser.parse_args()
 
-    # If arguments not provided, prompt the user
-    project_name = args.project_name if args.project_name else input(
-        "Enter the project name: ")
-    spec = args.spec if args.spec else input("Enter the API specification: ")
+    project_name = args.project_name
+    spec = args.spec
 
     # Generate code
     code_gen = CrudApiCodeGen(spec)
-    datamodels_code = await code_gen.generate_datamodels()
-    router_code = await code_gen.generate_router()
-    service_code = await code_gen.generate_service()
+    generated_components = await code_gen.generate_all()
 
     # Create project folder
     project_folder = os.path.join(os.getcwd(), project_name)
     os.makedirs(project_folder, exist_ok=True)
 
     # Write generated code to files
-    write_to_file(project_folder, "datamodels.py", datamodels_code)
-    write_to_file(project_folder, "router.py", router_code)
-    write_to_file(project_folder, "service.py", service_code)
+    write_to_file(project_folder, "datamodels.py",
+                  generated_components["datamodels"])
+    write_to_file(project_folder, "router.py", generated_components["router"])
+    write_to_file(project_folder, "service.py",
+                  generated_components["service"])
+    write_to_file(project_folder, "main.py",
+                  generated_components["main"])  # New: Write the main file
 
     # Zip the project folder
     zip_path = zip_project_folder(project_folder)
