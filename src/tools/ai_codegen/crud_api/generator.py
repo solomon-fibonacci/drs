@@ -17,7 +17,7 @@ class CrudApiCodeGen:
         self.spec = f"""{spec}. Make sure to only include source code in your response. 
         The string from your response will be written to a file for execution, 
         so you must not include any additional comments or instructions.
-        Also ensure to not include any formatting or markdown syntax in your response.
+        Also ensure to not include any formatting or markdown syntax (such as ```python) in your response.
         The outputted string should be valid Python code that is executable as is.
         """
         self._datamodel = ""
