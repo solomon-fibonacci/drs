@@ -4,9 +4,7 @@ from openai import chat
 
 import vertexai
 from vertexai.preview.generative_models import GenerativeModel
-
-from app.statsbuilder.service.helper import system_msg
-from app.statsbuilder.service.base import AiClient, BaseDashboardGen
+from tools.ai_client.interface import AiClient
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -46,9 +44,14 @@ class GeminiAiClient(AiClient):
             raise Exception("Failed to extract json string")
         return json_string
 
-
-class GeminiDashboardGen(BaseDashboardGen):
-
-    def __init__(self) -> None:
-        ai_client = GeminiAiClient()
-        super().__init__(ai_client)
+    async def generate_code(self, prompt: str) -> str:
+        response = await self.ai_client.generate_content_async(
+            prompt,
+            generation_config={
+                "max_output_tokens": 2048,
+                "temperature": 0.9,
+                "top_p": 1,
+                "top_k": 32,
+            },
+        )
+        return str(response.text)
