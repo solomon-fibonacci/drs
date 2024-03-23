@@ -88,8 +88,6 @@ class CrudApiCodeGen:
         The service layer interacts with the database or external services to perform CRUD operations, 
         including retrieving a specific item by ID.
 
-        # Template:
-        
 
         # Your code should replace the YourService class methods with specifics from the specification,
         # including details for the method to get an item by ID.

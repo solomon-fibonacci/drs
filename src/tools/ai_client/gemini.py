@@ -1,6 +1,5 @@
 import logging
 from typing import Any
-from openai import chat
 
 import vertexai
 from vertexai.preview.generative_models import GenerativeModel
@@ -42,10 +41,12 @@ class GeminiAiClient(AiClient):
         except Exception as e:
             logger.error(f"Failed to extract json string from {res_string}")
             raise Exception("Failed to extract json string")
+
+        await self.log_req_res_to_file(chat_msg, json_string)
         return json_string
 
     async def generate_code(self, prompt: str) -> str:
-        response = await self.ai_client.generate_content_async(
+        _res = await self.ai_client.generate_content_async(
             prompt,
             generation_config={
                 "max_output_tokens": 2048,
@@ -54,4 +55,6 @@ class GeminiAiClient(AiClient):
                 "top_k": 32,
             },
         )
-        return str(response.text)
+        res = str(_res.text)
+        await self.log_req_res_to_file(prompt, res)
+        return res

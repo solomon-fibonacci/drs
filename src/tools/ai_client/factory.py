@@ -19,10 +19,12 @@ def get_ai_client(client_name: Optional[str] = None) -> AiClient:
     if not client_name:
         open_api_key = os.getenv("OPENAI_API_KEY")
         google_app_cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-        if open_api_key:
+        if google_app_cred_path:
+            print("Using Gemini AI client with Google credentials: ",
+                  google_app_cred_path)
+            return GeminiAiClient()
+        elif open_api_key:
             return GPTAiClient(open_api_key)
-        elif google_app_cred_path:
-            return GeminiAiClient(google_app_cred_path)
         else:
             raise ValueError("No API key or credentials found for AI client.")
     if client_name.lower() == "gpt":
