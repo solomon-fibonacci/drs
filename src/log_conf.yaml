@@ -1,0 +1,37 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  standard:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: standard
+    stream: ext://sys.stdout
+  file_handler:
+    class: logging.FileHandler
+    level: INFO
+    formatter: standard
+    filename: fastapi.log
+    encoding: utf8
+loggers:
+  uvicorn:
+    level: INFO
+    handlers: [console]
+    propagate: no
+  uvicorn.error:
+    level: INFO
+    handlers: [console]
+    propagate: no
+  uvicorn.access:
+    level: INFO
+    handlers: [console]
+    propagate: no
+  myapp:
+    level: DEBUG
+    handlers: [console, file_handler]
+    propagate: no
+root:
+  level: INFO
+  handlers: [console, file_handler]

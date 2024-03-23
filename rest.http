@@ -1,0 +1,30 @@
+get http://localhost:8000/docs
+
+
+###
+# health check
+get http://localhost:8000/ai-merchmaker/health
+
+
+###
+# Start checkout
+post http://localhost:8000/ai-merchmaker/start-checkout
+
+
+###
+# Generate art
+curl http://localhost:8000/ai-merchmaker/generate-art -x POST -d '{"prompt": "A cat on a cityscape with purple sky and colorful lights."}' -H "Content-Type: application/json"
+
+
+###
+# Generate merch
+curl http://localhost:8000/ai-merchmaker/generate-product -x POST -d '{"prompt": "A cat on a cityscape with purple sky and colorful lights."}' -H "Content-Type: application/json"
+
+
+###
+# Get product
+get http://localhost:8000/ai-merchmaker/products/27409f5a-1fdc-4f75-952a-aa11b02dc8ee
+
+
+###
+get https://ai-merchmaker.vercel.app/products/fa545a26-f220-4d6d-9e25-560417148e19
