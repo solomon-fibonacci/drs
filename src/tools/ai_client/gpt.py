@@ -28,6 +28,7 @@ class GPTAiClient(AiClient):
         if not json_string:
             logger.error(f"Prompt: {prompt}")
             raise Exception("Failed to generate response")
+        await self.log_req_res_to_file(prompt, json_string)
         return json_string
 
     async def generate_code(self, prompt: str) -> str:
@@ -39,4 +40,6 @@ class GPTAiClient(AiClient):
             }],
             temperature=0.9,
         )
-        return completion.choices[0].message.content
+        res = completion.choices[0].message.content
+        await self.log_req_res_to_file(prompt, res)
+        return res

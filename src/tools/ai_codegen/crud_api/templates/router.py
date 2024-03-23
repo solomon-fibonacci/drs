@@ -1,7 +1,7 @@
 template = """
 from fastapi import APIRouter, HTTPException, status
 from typing import List
-from models import YourModel  # Assume 'YourModel' is replaced with the actual model name
+from .datamodels import YourModel  # Replace 'YourModel' with the actual model name make sure import is from .datamodels
 
 router = APIRouter()
 
