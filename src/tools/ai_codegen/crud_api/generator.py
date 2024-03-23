@@ -41,7 +41,7 @@ class CrudApiCodeGen:
         Define enums and models based on the specification above, using the following template as a guideline.
         """
         # Additional template and example details would be included here.
-        generated_code = await self.ai_client.generate_code(prompt)
+        generated_code = await self._send_prompt(prompt)
         self._datamodel = generated_code
         return generated_code
 
@@ -64,7 +64,7 @@ class CrudApiCodeGen:
         Generate Python code for FastAPI router including necessary imports and route decorators. 
         """
         # Additional template and example details would be included here.
-        generated_code = await self.ai_client.generate_code(prompt)
+        generated_code = await self._send_prompt(prompt)
         return generated_code
 
     async def generate_service(self) -> str:
@@ -93,7 +93,7 @@ class CrudApiCodeGen:
         # including details for the method to get an item by ID.
         """
         # Additional template and example details would be included here.
-        generated_code = await self.ai_client.generate_code(prompt)
+        generated_code = await self._send_prompt(prompt)
         return generated_code
 
     async def generate_main(self) -> str:
@@ -113,7 +113,7 @@ class CrudApiCodeGen:
         importing routers and defining the main entry point for the API.
         """
         # Additional template and example details would be included here.
-        generated_code = await self.ai_client.generate_code(prompt)
+        generated_code = await self._send_prompt(prompt)
         return generated_code
 
     async def generate_all(self) -> dict:
@@ -133,3 +133,17 @@ class CrudApiCodeGen:
             "service": service_code,
             "main": main_code
         }
+
+    async def _send_prompt(self, prompt: str) -> str:
+        """
+        Sends a prompt to the AI model to generate code based on the given prompt.
+        
+        :param prompt: The prompt for generating code.
+        :return: The generated code.
+        """
+        prompt = f"""
+        {prompt}. 
+        Make sure that all methods are implemented and do not contain "pass", 
+        blank space or placeholder comments.
+        """
+        return await self.ai_client.generate_code(prompt)
