@@ -1,4 +1,4 @@
-from tools.ai_client.factory import AiClientFactory
+from tools.ai_client.factory import get_ai_client
 
 
 class CrudApiCodeGen:
@@ -10,7 +10,7 @@ class CrudApiCodeGen:
         :param spec: A string containing a natural language description of the entire API.
         """
         self.spec = spec
-        self.ai_client = AiClientFactory.create_ai_client()
+        self.ai_client = get_ai_client()
 
     async def generate_datamodels(self) -> str:
         """

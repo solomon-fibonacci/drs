@@ -14,12 +14,13 @@ class GPTAiClient(AiClient):
 
     def __init__(self, openai_api_key: str):
         self.ai_client = OpenAI(api_key=openai_api_key)
+        self.model = "gpt-4-0125-preview"
 
     async def send_json_chat(self, prompt: Any, sys_propmt: Any) -> str:
         msg: ChatCompletionMessageParam = {"role": "user", "content": prompt}
         messages = [msg]
         completion = await self.ai_client.chat.completions.create(
-            model="gpt-3.5-turbo-1106",
+            model=self.model,
             messages=messages,
             temperature=0.9,
         )
@@ -31,7 +32,7 @@ class GPTAiClient(AiClient):
 
     async def generate_code(self, prompt: str) -> str:
         completion = await self.ai_client.completions.create(
-            model="text-davinci-003",
+            model=self.model,
             prompt=prompt,
             temperature=0.9,
         )
